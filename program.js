@@ -238,3 +238,32 @@ Function.prototype.method = function(name, func) {
 }
 
 // 4.7 - Recursion
+var hanoi = function(disc, src, aux, dst) { //A recursive function is one that calls itself.
+    if(disc > 0) {
+        hanoi(disc - 1, src, dst, aux);
+        document.writeln('Move disc ' + disc + ' from ' + src + ' to ' + dst);
+        hanoi(disc - 1, aux, src, dst);
+    }
+}
+hanoi(3, 'Src', 'Aux', 'Dst');
+// Define a walk_the_DOM that visits every node of the tree in HTML source order, starting with a given node.
+// Recursively walks itself until it has processed each child node.
+var walk_the_DOM = function walk(node, func) {
+    func(node);
+    node = node.firstChild;
+    while (node) {
+        walk (node, func);
+        node = node.nextSibling;
+    }
+};
+// Defines a function getElementsByAttribute that takes an attr name and a matching value.
+var getElementsByAttribute = function(attr, value) {
+    var results= [];
+    walk_the_DOM(document.body, function(node) { // Calls walk_the_dom and returns any matching nodes
+        var actual = node.nodeType === 1 && node.getAttribute(attr);
+        if (typeof actual === 'string' && (actual === value || typeof value != 'string')) {
+            results.push(node);
+        }
+    });
+    return results;
+}
